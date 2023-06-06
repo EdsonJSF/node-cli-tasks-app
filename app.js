@@ -1,11 +1,12 @@
 require("colors");
 
 const {
+  comfirm,
   inquirerMenu,
+  listCheckChoices,
+  listDeleteChoices,
   pause,
   readInput,
-  tasksChoices,
-  comfirm,
 } = require("./helpers/inquirer");
 const { saveTask, readTasks } = require("./helpers/taskDB");
 const Tasks = require("./models/tasks");
@@ -35,9 +36,11 @@ const main = async () => {
         tasks.listCompletedTasks(false);
         break;
       case "5":
+        const taskIds = await listCheckChoices(tasks.taskslist);
+        console.log(taskIds);
         break;
       case "6":
-        const taskId = await tasksChoices(tasks.taskslist);
+        const taskId = await listDeleteChoices(tasks.taskslist);
         if (!taskId) break;
         const ok = await comfirm("¿Esta seguro?");
         if (ok) tasks.deleteTask(taskId);

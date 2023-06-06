@@ -44,11 +44,17 @@ const readInput = async (message) => {
   return desc;
 };
 
-const tasksChoices = async (tasks = []) => {
-  const choices = tasks.map((task, index) => {
+const createChoices = (tasks = [], checked = false) => {
+  return (choices = tasks.map((task, index) => {
     const i = `${index + 1}.`.green;
-    return { value: task.id, name: `${i} ${task.desc}` };
-  });
+    const choice = { value: task.id, name: `${i} ${task.desc}` };
+    if (checked) choice.checked = !!task.completeDate;
+    return choice;
+  }));
+};
+
+const listDeleteChoices = async (tasks = []) => {
+  const choices = createChoices(tasks);
 
   choices.unshift({ value: false, name: `${"0.".green} No! Quiero salir` });
 
@@ -63,6 +69,22 @@ const tasksChoices = async (tasks = []) => {
 
   const { taskID } = await inquirer.prompt(question);
   return taskID;
+};
+
+const listCheckChoices = async (tasks = []) => {
+  const choices = createChoices(tasks, true);
+
+  const question = [
+    {
+      type: "checkbox",
+      name: "taskIDs",
+      message: "Selecciones",
+      choices,
+    },
+  ];
+
+  const { taskIDs } = await inquirer.prompt(question);
+  return taskIDs;
 };
 
 const comfirm = async (message) => {
@@ -93,9 +115,10 @@ const pause = async () => {
 };
 
 module.exports = {
+  comfirm,
   inquirerMenu,
+  listCheckChoices,
+  listDeleteChoices,
   pause,
   readInput,
-  tasksChoices,
-  comfirm,
 };
