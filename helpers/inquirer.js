@@ -44,6 +44,27 @@ const readInput = async (message) => {
   return desc;
 };
 
+const tasksChoices = async (tasks = []) => {
+  const choices = tasks.map((task, index) => {
+    const i = `${index + 1}.`.green;
+    return { value: task.id, name: `${i} ${task.desc}` };
+  });
+
+  choices.unshift({ value: false, name: `${"0.".green} Salir` });
+
+  const question = [
+    {
+      type: "list",
+      name: "taskID",
+      message: "¿Cual desea borrar?",
+      choices,
+    },
+  ];
+
+  const { taskID } = await inquirer.prompt(question);
+  return taskID;
+};
+
 const pause = async () => {
   const question = [
     {
@@ -62,4 +83,5 @@ module.exports = {
   inquirerMenu,
   pause,
   readInput,
+  tasksChoices,
 };

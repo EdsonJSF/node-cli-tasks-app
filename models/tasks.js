@@ -47,6 +47,12 @@ class Tasks {
     );
     this.listAllTasks(tasks, status);
   }
+
+  deleteTask(id = "") {
+    if (this._list[id]) {
+      delete this._list[id]
+    }
+  }
 }
 
 module.exports = Tasks;
