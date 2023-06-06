@@ -28,6 +28,22 @@ const inquirerMenu = async () => {
   return menuOption;
 };
 
+const readInput = async (message) => {
+  const question = [
+    {
+      type: "input",
+      name: "desc",
+      message,
+      validate(value) {
+        if (value.length === 0) return "Por favor ingrese un valor";
+        return true;
+      },
+    },
+  ];
+  const { desc } = await inquirer.prompt(question);
+  return desc;
+};
+
 const pause = async () => {
   const question = [
     {
@@ -45,4 +61,5 @@ const pause = async () => {
 module.exports = {
   inquirerMenu,
   pause,
+  readInput,
 };
