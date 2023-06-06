@@ -1,12 +1,15 @@
 require("colors");
 
 const { inquirerMenu, pause, readInput } = require("./helpers/inquirer");
-const { saveTask } = require("./helpers/saveTask");
+const { saveTask, readTasks } = require("./helpers/taskDB");
 const Tasks = require("./models/tasks");
 
 const main = async () => {
   let opt = "";
   const tasks = new Tasks();
+
+  const tasksDB = readTasks();
+  if (tasksDB) tasks.createTasks(tasksDB);
 
   do {
     opt = await inquirerMenu();
