@@ -50,7 +50,7 @@ const tasksChoices = async (tasks = []) => {
     return { value: task.id, name: `${i} ${task.desc}` };
   });
 
-  choices.unshift({ value: false, name: `${"0.".green} Salir` });
+  choices.unshift({ value: false, name: `${"0.".green} No! Quiero salir` });
 
   const question = [
     {
@@ -63,6 +63,19 @@ const tasksChoices = async (tasks = []) => {
 
   const { taskID } = await inquirer.prompt(question);
   return taskID;
+};
+
+const comfirm = async (message) => {
+  const question = [
+    {
+      type: "confirm",
+      name: "ok",
+      message: message,
+    },
+  ];
+
+  const { ok } = await inquirer.prompt(question);
+  return ok;
 };
 
 const pause = async () => {
@@ -84,4 +97,5 @@ module.exports = {
   pause,
   readInput,
   tasksChoices,
+  comfirm,
 };

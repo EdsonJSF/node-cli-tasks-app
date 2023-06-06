@@ -5,6 +5,7 @@ const {
   pause,
   readInput,
   tasksChoices,
+  comfirm,
 } = require("./helpers/inquirer");
 const { saveTask, readTasks } = require("./helpers/taskDB");
 const Tasks = require("./models/tasks");
@@ -37,7 +38,9 @@ const main = async () => {
         break;
       case "6":
         const taskId = await tasksChoices(tasks.taskslist);
-        tasks.deleteTask(taskId);
+        if (!taskId) break;
+        const ok = await comfirm("¿Esta seguro?");
+        if (ok) tasks.deleteTask(taskId);
         break;
     }
 
