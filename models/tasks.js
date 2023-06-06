@@ -21,9 +21,19 @@ class Tasks {
   }
 
   createTasks(tasks = []) {
-    tasks.forEach(task => {
+    tasks.forEach((task) => {
       this._list[task.id] = task;
-    })
+    });
+  }
+
+  listAllTasks() {
+    console.log();
+
+    this.taskslist.forEach((task, index) => {
+      const i = `${index + 1}.`.green;
+      const status = task.completeDate ? "Completada".green : "Pendiente".red;
+      console.log(`${i} ${task.desc} :: ${status}`);
+    });
   }
 }
 
