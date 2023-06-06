@@ -26,14 +26,26 @@ class Tasks {
     });
   }
 
-  listAllTasks() {
+  listAllTasks(tasks = [], date = false) {
     console.log();
 
-    this.taskslist.forEach((task, index) => {
+    tasks.forEach((task, index) => {
       const i = `${index + 1}.`.green;
-      const status = task.completeDate ? "Completada".green : "Pendiente".red;
+      let status = "";
+      if (date) {
+        status = task.completeDate.blue;
+      } else {
+        status = task.completeDate ? "Completada".green : "Pendiente".red;
+      }
       console.log(`${i} ${task.desc} :: ${status}`);
     });
+  }
+
+  listCompletedTasks(status = true) {
+    const tasks = this.taskslist.filter(
+      (task) => !!task.completeDate === status
+    );
+    this.listAllTasks(tasks, status);
   }
 }
 

@@ -21,11 +21,13 @@ const main = async () => {
         console.log(desc);
         break;
       case "2":
-        tasks.listAllTasks();
+        tasks.listAllTasks(tasksDB);
         break;
       case "3":
+        tasks.listCompletedTasks(true);
         break;
       case "4":
+        tasks.listCompletedTasks(false);
         break;
       case "5":
         break;
