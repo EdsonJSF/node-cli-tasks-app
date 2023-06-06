@@ -48,9 +48,24 @@ class Tasks {
     this.listAllTasks(tasks, status);
   }
 
+  toggleTasks(ids = []) {
+    ids.forEach((id) => {
+      const task = this._list[id];
+      if (!task.completeDate) {
+        task.completeDate = new Date().toISOString();
+      }
+    });
+
+    this.taskslist.forEach((task) => {
+      if (!ids.includes(task.id)) {
+        this._list[task.id].completeDate = null;
+      }
+    });
+  }
+
   deleteTask(id = "") {
     if (this._list[id]) {
-      delete this._list[id]
+      delete this._list[id];
     }
   }
 }

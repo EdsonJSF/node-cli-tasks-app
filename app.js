@@ -37,7 +37,7 @@ const main = async () => {
         break;
       case "5":
         const taskIds = await listCheckChoices(tasks.taskslist);
-        console.log(taskIds);
+        tasks.toggleTasks(taskIds);
         break;
       case "6":
         const taskId = await listDeleteChoices(tasks.taskslist);
