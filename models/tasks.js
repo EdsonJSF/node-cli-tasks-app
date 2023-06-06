@@ -48,6 +48,12 @@ class Tasks {
     this.listAllTasks(tasks, status);
   }
 
+  editTask(id = "", desc) {
+    if (this._list[id]) {
+      this._list[id].desc = desc;
+    }
+  }
+
   toggleTasks(ids = []) {
     ids.forEach((id) => {
       const task = this._list[id];

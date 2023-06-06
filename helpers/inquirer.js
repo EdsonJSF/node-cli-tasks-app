@@ -4,7 +4,7 @@ require("colors");
 const menuOpt = [
   {
     type: "list",
-    name: "menuOption",
+    name: "option",
     message: "¿Que desea hacer?",
     choices: [
       { value: "1", name: `${"1.".green} Crear tarea` },
@@ -12,7 +12,8 @@ const menuOpt = [
       { value: "3", name: `${"3.".green} Listar tarea(s) completadas` },
       { value: "4", name: `${"4.".green} Listar tarea(s) pendientes` },
       { value: "5", name: `${"5.".green} Completar tarea(s)` },
-      { value: "6", name: `${"6.".green} Borrar tarea(s)` },
+      { value: "6", name: `${"6.".green} Editar tarea` },
+      { value: "7", name: `${"7.".green} Borrar tarea(s)` },
       { value: "0", name: `${"0.".green} Salir\n` },
     ],
   },
@@ -24,8 +25,8 @@ const inquirerMenu = async () => {
   console.log("   Seleccione una opción".green);
   console.log("===========================\n".green);
 
-  const { menuOption } = await inquirer.prompt(menuOpt);
-  return menuOption;
+  const { option } = await inquirer.prompt(menuOpt);
+  return option;
 };
 
 const readInput = async (message) => {
@@ -53,38 +54,25 @@ const createChoices = (tasks = [], checked = false) => {
   }));
 };
 
-const listDeleteChoices = async (tasks = []) => {
+const createQuestion = (type, name, message, choices) => {
+  return [{ type, name, message, choices }];
+};
+
+const listChoices = async (tasks = [], message) => {
   const choices = createChoices(tasks);
-
   choices.unshift({ value: false, name: `${"0.".green} No! Quiero salir` });
+  const question = createQuestion("list", "id", message, choices);
 
-  const question = [
-    {
-      type: "list",
-      name: "taskID",
-      message: "¿Cual desea borrar?",
-      choices,
-    },
-  ];
-
-  const { taskID } = await inquirer.prompt(question);
-  return taskID;
+  const { id } = await inquirer.prompt(question);
+  return id;
 };
 
 const listCheckChoices = async (tasks = []) => {
   const choices = createChoices(tasks, true);
+  const question = createQuestion("checkbox", "ids", "Selecciones", choices);
 
-  const question = [
-    {
-      type: "checkbox",
-      name: "taskIDs",
-      message: "Selecciones",
-      choices,
-    },
-  ];
-
-  const { taskIDs } = await inquirer.prompt(question);
-  return taskIDs;
+  const { ids } = await inquirer.prompt(question);
+  return ids;
 };
 
 const comfirm = async (message) => {
@@ -118,7 +106,7 @@ module.exports = {
   comfirm,
   inquirerMenu,
   listCheckChoices,
-  listDeleteChoices,
+  listChoices,
   pause,
   readInput,
 };

@@ -4,7 +4,7 @@ const {
   comfirm,
   inquirerMenu,
   listCheckChoices,
-  listDeleteChoices,
+  listChoices,
   pause,
   readInput,
 } = require("./helpers/inquirer");
@@ -40,10 +40,16 @@ const main = async () => {
         tasks.toggleTasks(taskIds);
         break;
       case "6":
-        const taskId = await listDeleteChoices(tasks.taskslist);
-        if (!taskId) break;
-        const ok = await comfirm("¿Esta seguro?");
-        if (ok) tasks.deleteTask(taskId);
+        const editId = await listChoices(tasks.taskslist, "¿Cual desea editar?");
+        if (!editId) break;
+        const editDesc = await readInput("Desc:");
+        tasks.editTask(editId, editDesc);
+        break;
+      case "7":
+        const deleteId = await listChoices(tasks.taskslist, "¿Cual desea borrar?");
+        if (!deleteId) break;
+        const deleteConfirm = await comfirm("¿Esta seguro?");
+        if (deleteConfirm) tasks.deleteTask(deleteId);
         break;
     }
 
